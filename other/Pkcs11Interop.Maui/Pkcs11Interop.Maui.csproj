@@ -63,4 +63,33 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 	</ItemGroup>
 
+	<!-- Local build of Pkcs11Interop  -->
+	<ItemGroup>
+		<Reference Include="../../src/Pkcs11Interop/bin/Release/netstandard2.0/Pkcs11Interop.dll" />
+	</ItemGroup>
+
+	<!-- 
+	Resolves miriad of build errors similar to this:
+		error : ld: warning: object file ... was built for newer Mac Catalyst version (14.2) than being linked (14.0)
+	-->
+	<PropertyGroup>
+    	<_UseClassicLinker>false</_UseClassicLinker>
+	</PropertyGroup>
+
+	<!--
+	Builds with EMPTY-PKCS11 to resolve miriad of build errors similar to this:
+		Undefined symbols for architecture arm64: "_C_CancelFunction", referenced from: <initial-undefines>
+	-->
+    <ItemGroup>
+    	<NativeReference Include="empty-pkcs11/macos/empty-pkcs11.dylib">
+      		<Kind>Dynamic</Kind>
+      		<SmartLink>False</SmartLink>
+    	</NativeReference>
+    </ItemGroup>
+
+	<!-- Use PKCS11-MOCK for testing -->
+	<ItemGroup>
+  		<None Update="pkcs11-mock/macos/pkcs11-mock.dylib" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
 </Project>
