@@ -25,6 +25,7 @@ public partial class MainPage : ContentPage
 
 		try
 		{
+			Net.Pkcs11Interop.Common.Platform.IsMacOsX = true;
 			var libraryPath = "./pkcs11-mock/macos/pkcs11-mock.dylib";
 			var factories = new Pkcs11InteropFactories();
 			var library = factories.Pkcs11LibraryFactory.LoadPkcs11Library(factories, libraryPath, AppType.MultiThreaded);
